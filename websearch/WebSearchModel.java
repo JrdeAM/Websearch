@@ -2,18 +2,16 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import interfaces.QueryFilter;
+import interfaces.QueryObserver;
+import models.FilteredObserver;
 
 /**
  * Perform "web search" (from a  file), notify the interested observers of each query.
  */
 public class WebSearchModel {
     private final File sourceFile;
-    private final List<QueryObserver> observers = new ArrayList<>();
+    private final List<FilteredObserver> observers = new ArrayList<>();
     private final QueryFilter filter;
-
-    public interface QueryObserver {
-        void onQuery(String query);
-    }
 
     public WebSearchModel(File sourceFile, QueryFilter filter) {
         this.sourceFile = sourceFile;
@@ -36,13 +34,17 @@ public class WebSearchModel {
         }
     }
 
-    public void addQueryObserver(QueryObserver queryObserver) {
-        observers.add(queryObserver);
-    }
+  public void addQueryObserver(QueryObserver observer, QueryFilter filter) {
+    observers.add(new FilteredObserver(observer, filter));
+}
 
     private void notifyAllObservers(String line) {
-        for (QueryObserver obs : observers) {
-            obs.onQuery(line);
+        for(FilteredObserver obs : observers){
+
+            if(obs.accepts(line)){
+                obs.notify(line);
+            }
+
         }
     }
 }
