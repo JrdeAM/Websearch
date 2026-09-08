@@ -1,24 +1,33 @@
-import impl.KeywordQueryFilter;
 import interfaces.QueryObserver;
+import impl.KeywordQueryFilter;
 
-/**
- * Watches the search queries
- */
 public class Snooper {
-    private final WebSearchModel model;
 
     public Snooper(WebSearchModel model) {
-        this.model = model;
 
+        // Usuário 1
         model.addQueryObserver(
                 new QueryObserver() {
 
                     @Override
                     public void onQuery(String query) {
-                        System.out.println("Query: " + query);
+                        System.out.println("Usuário 1 recebeu: " + query);
                     }
 
                 },
                 new KeywordQueryFilter("king"));
+
+        // Usuário 2
+        model.addQueryObserver(
+                new QueryObserver() {
+
+                    @Override
+                    public void onQuery(String query) {
+                        System.out.println("Usuário 2 recebeu: " + query);
+                    }
+
+                },
+                new KeywordQueryFilter("queen"));
+
     }
 }
