@@ -8,6 +8,7 @@ import java.util.List;
 public class WebSearchModel {
     private final File sourceFile;
     private final List<QueryObserver> observers = new ArrayList<>();
+    private final QueryFilter filter;
 
     public interface QueryObserver {
         void onQuery(String query);
