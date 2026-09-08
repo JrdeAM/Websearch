@@ -1,33 +1,42 @@
 import interfaces.QueryObserver;
-import impl.KeywordQueryFilter;
+import impl.FriendQueryFilter;
+import impl.LongQueryFilter;
 
 public class Snooper {
 
     public Snooper(WebSearchModel model) {
 
-        // Usuário 1
+        // Observador 1 - procura "friend"
         model.addQueryObserver(
+
                 new QueryObserver() {
 
                     @Override
                     public void onQuery(String query) {
-                        System.out.println("Usuário 1 recebeu: " + query);
+                        System.out.println("Oh Yes! " + query);
                     }
 
                 },
-                new KeywordQueryFilter("king"));
 
-        // Usuário 2
+                new FriendQueryFilter()
+
+        );
+
+        // Observador 2 - consultas maiores que 60 caracteres
         model.addQueryObserver(
+
                 new QueryObserver() {
 
                     @Override
                     public void onQuery(String query) {
-                        System.out.println("Usuário 2 recebeu: " + query);
+                        System.out.println("So long " + query);
                     }
 
                 },
-                new KeywordQueryFilter("queen"));
+
+                new LongQueryFilter()
+
+        );
 
     }
 }
