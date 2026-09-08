@@ -1,4 +1,7 @@
 import java.io.File;
+import interfaces.QueryFilter;
+import impl.KeywordQueryFilter;
+
 
 /**
  * Launch the web-search example
@@ -9,7 +12,8 @@ public class Main {
         File inputTextFile = new File("data/Hamlet.txt");
 
         // Build object graph
-        WebSearchModel model = new WebSearchModel(inputTextFile);
+        QueryFilter filter = new KeywordQueryFilter("king");
+        WebSearchModel model = new WebSearchModel(inputTextFile, filter);
         Snooper snoop = new Snooper(model);
 
         // Execute

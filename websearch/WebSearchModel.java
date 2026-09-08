@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import interfaces.QueryFilter;
 
 /**
  * Perform "web search" (from a  file), notify the interested observers of each query.
@@ -14,8 +15,9 @@ public class WebSearchModel {
         void onQuery(String query);
     }
 
-    public WebSearchModel(File sourceFile) {
+    public WebSearchModel(File sourceFile, QueryFilter filter) {
         this.sourceFile = sourceFile;
+        this.filter = filter;
     }
 
     public void pretendToSearch() {
@@ -25,7 +27,9 @@ public class WebSearchModel {
                 if (line == null) {
                     break;
                 }
-                notifyAllObservers(line);
+                if(filter.filter(line)){
+                    notifyAllObservers(line);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
